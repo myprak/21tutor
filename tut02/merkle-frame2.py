@@ -1,4 +1,5 @@
-## Objective: hash A|B to get merkle root C
+## Objective: hash A|B, C|D and then the interior nodes to get the
+## merkle root 
 
 ## Bitcoin relies on the SHA256 hash function
 from hashlib import sha256
@@ -20,6 +21,33 @@ def rpc2internal(hash):
 def internal2rpc(hash):
   return hexlify(hash[::-1])
 
+
+
+## build_tree takes a list of nodes in IBO and returns a merkle root in IBO
+## Take an array with an factor-of-2 number of merkle nodes and hash
+## each pair together. This is a recursive function where each level
+## higher on the call stack is a level closer to the merkle root
+def build_tree(list_of_nodes):
+  ## if the list of nodes has only one has, it's the merkle root
+  print("\n"+"Printing list of nodes")
+  print (list_of_nodes)
+  if len(list_of_nodes)==1:
+    return list_of_nodes[0]
+
+  ## Hash each pair together into a new list nodes one level closer
+  ## the the merkle root
+  new_nodes = []
+  for i in range (0, len(list_of_nodes)-1,2):
+    new_nodes.append(sha256d(list_of_nodes[i] + list_of_nodes[i+1]))
+
+  ## Recursively build the next level closer to the merkle root
+  return (build_tree(new_nodes))
+
+
+ 
+
+
+
 ## Take an array with two txids and hash them together to produce a
 ## merkle root.
 def find_merkle_root(txids):
@@ -28,10 +56,10 @@ def find_merkle_root(txids):
   leaf_nodes = []
   for i in range(0, len(txids)):
     leaf_nodes.append(rpc2internal(txids[i]))
-
-  ## In this case, we know we're going to have two leaves, so simply
-  ## hash them together and return the result in RPC byte order.
-  return internal2rpc(sha256d(leaf_nodes[0] + leaf_nodes[1]))
+    
+  ## Use build_tree() to find the merkle root and convert the result
+  ## to RPC byte order.
+  return internal2rpc(build_tree(leaf_nodes))
 
 ## These are the txids from block 546.  The correct merkle root is
 ## e10a7f8442ea6cc6803a2b83713765c0b1199924110205f601f90fef125e7dfe
