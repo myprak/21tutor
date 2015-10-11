@@ -33,11 +33,13 @@ def find_merkle_root(txids):
   ## hash them together and return the result in RPC byte order.
   return internal2rpc(sha256d(leaf_nodes[0] + leaf_nodes[1]))
 
-## These are the txids from block 170. The correct merkle root for that
-## block is 7dac2c5666815c17a3b36427de37bb9d2e2c5ccec3f8633eb91a4205cb4c10ff
+## These are the txids from block 546.  The correct merkle root is
+## e10a7f8442ea6cc6803a2b83713765c0b1199924110205f601f90fef125e7dfe
 block_txids = [
-  "b1fea52486ce0c62bb442b530a3f0132b826c74e473d1f2c220bfa78111c5082",
-  "f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16",
+  "e980fe9f792d014e73b95203dc1335c5f9ce19ac537a419e6df5b47aecb93b70",
+  "28204cad1d7fc1d199e8ef4fa22f182de6258a3eaafe1bbe56ebdcacd3069a5f",
+  "6b0f8a73a56c04b519f1883e8aafda643ba61a30bd1439969df21bea5f4e27e2",
+  "3c1d7e82342158e4109df2e0b6348b6e84e403d8b4046d7007663ace63cddb23",
 ]
 
 print(find_merkle_root(block_txids))
