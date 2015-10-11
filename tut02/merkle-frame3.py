@@ -1,5 +1,5 @@
-## Objective: hash A|B, C|D and then the interior nodes to get the
-## merkle root 
+## Objective: get the merkle root of a tree with an unbalanced number of
+## nodes in one row
 
 ## Bitcoin relies on the SHA256 hash function
 from hashlib import sha256
@@ -61,13 +61,12 @@ def find_merkle_root(txids):
   ## to RPC byte order.
   return internal2rpc(build_tree(leaf_nodes))
 
-## These are the txids from block 546.  The correct merkle root is
-## e10a7f8442ea6cc6803a2b83713765c0b1199924110205f601f90fef125e7dfe
+## These are the txids from block 586. The correct merkle root is
+## 197b3d968ce463aa5da7d8eeba8af35eba80ded4e4fe6808e6cc0dd1c069594d
 block_txids = [
-  "e980fe9f792d014e73b95203dc1335c5f9ce19ac537a419e6df5b47aecb93b70",
-  "28204cad1d7fc1d199e8ef4fa22f182de6258a3eaafe1bbe56ebdcacd3069a5f",
-  "6b0f8a73a56c04b519f1883e8aafda643ba61a30bd1439969df21bea5f4e27e2",
-  "3c1d7e82342158e4109df2e0b6348b6e84e403d8b4046d7007663ace63cddb23",
+  "d45724bacd1480b0c94d363ebf59f844fb54e60cdfda0cd38ef67154e9d0bc43",
+  "4d6edbeb62735d45ff1565385a8b0045f066055c9425e21540ea7a8060f08bf2",
+  "6bf363548b08aa8761e278be802a2d84b8e40daefe8150f9af7dd7b65a0de49f",
 ]
 
 print(find_merkle_root(block_txids))
