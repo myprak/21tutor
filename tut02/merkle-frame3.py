@@ -31,6 +31,7 @@ def build_tree(list_of_nodes):
   ## if the list of nodes has only one has, it's the merkle root
   print("\n"+"Printing list of nodes")
   print (list_of_nodes)
+
   if len(list_of_nodes)==1:
     return list_of_nodes[0]
 
@@ -40,14 +41,16 @@ def build_tree(list_of_nodes):
   for i in range (0, len(list_of_nodes)-1,2):
     new_nodes.append(sha256d(list_of_nodes[i] + list_of_nodes[i+1]))
 
+  ## If this merkle row has an odd number of elements, hash the
+  ## last node with itself
+  if len(list_of_nodes)%2==1:
+    new_nodes.append(sha256d(list_of_nodes[-1] + list_of_nodes[-1]))
+  
   ## Recursively build the next level closer to the merkle root
   return (build_tree(new_nodes))
 
 
  
-
-
-
 ## Take an array with two txids and hash them together to produce a
 ## merkle root.
 def find_merkle_root(txids):
